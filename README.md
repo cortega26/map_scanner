@@ -1,0 +1,290 @@
+# Enhanced Professional Map Scanner v3.0
+
+A modular, professional-grade map scanner for game automation with advanced OCR capabilities, robust error handling, and clean architecture.
+
+## 🏗️ Architecture Overview
+
+This application has been completely refactored from a monolithic script into a clean, modular architecture following software engineering best practices:
+
+### Core Principles Applied
+
+- **SOLID Principles**: Single Responsibility, Open/Closed, Liskov Substitution, Interface Segregation, Dependency Inversion
+- **DRY (Don't Repeat Yourself)**: Eliminated code duplication through shared utilities and base classes
+- **KISS (Keep It Simple, Stupid)**: Simple, focused modules with clear responsibilities
+- **Zen of Python**: "Flat is better than nested", "Readability counts", "Explicit is better than implicit"
+- **PEP-8**: Consistent code formatting and naming conventions
+
+### Module Structure
+
+```text
+
+map_scanner/
+├── __init__.py              # Package initialization and public API
+├── main.py                  # Application entry point
+├── config.py                # Configuration and constants
+├── exceptions.py            # Custom exception hierarchy
+├── logger_config.py         # Centralized logging setup
+├── utils.py                 # Reusable utility functions
+├── window_manager.py        # Window detection and management
+├── screen_capture.py        # Screen capture operations
+├── mouse_controller.py      # Mouse movement and interactions
+├── ocr_engine.py           # OCR processing and image preprocessing
+└── map_scanner.py          # Main scanner orchestration
+```
+
+## 🚀 Key Features
+
+### Enhanced OCR Capabilities
+
+- **Advanced Game Text Recognition**: Specialized preprocessing for white text with black outlines
+- **Multi-Strategy Processing**: Tests multiple OCR configurations automatically
+- **Quality Assessment**: Intelligent scoring system for optimal settings
+- **Alliance Tag Handling**: Smart extraction of player names from tagged text
+
+### Robust Architecture
+
+- **Modular Design**: Each component has a single, clear responsibility
+- **Error Handling**: Comprehensive exception hierarchy with graceful degradation
+- **Safety Systems**: Built-in fail-safes and boundary checking
+- **Signal Handling**: Graceful shutdown on interruption
+
+### Professional Features
+
+- **Adaptive Window Detection**: Automatically adjusts to different screen sizes
+- **Natural Mouse Movement**: Realistic movement patterns with variance
+- **Comprehensive Logging**: Detailed logging with configurable levels
+- **Test Mode**: OCR analysis and performance testing
+
+## 📦 Installation
+
+### Prerequisites
+
+1. **Python 3.8+**: Ensure you have Python 3.8 or higher installed
+2. **Tesseract OCR**: Install Tesseract OCR engine
+   - Windows: Download from [UB Mannheim](https://github.com/UB-Mannheim/tesseract/wiki)
+   - Add Tesseract to your system PATH
+
+### Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### Package Installation
+
+For development:
+
+```bash
+pip install -e .
+```
+
+For production:
+
+```bash
+pip install .
+```
+
+## 🎮 Usage
+
+### Command Line Interface
+
+```bash
+# Test mode - analyze OCR performance
+python -m map_scanner --test yes
+
+# Normal scanning
+python -m map_scanner --targets "PlayerName1,PlayerName2"
+
+# Advanced usage
+python -m map_scanner --targets "Player1,Player2" --max-rows 30 --debug
+```
+
+### Available Options
+
+- `--targets`: Comma-separated list of target names to search for
+- `--window`: Game window title (default: "Last War-Survival Game")
+- `--max-rows`: Maximum rows to scan (default: 20)
+- `--test`: Enable test mode for OCR analysis (yes/no)
+- `--debug`: Enable debug logging
+- `--log-file`: Custom log file path
+
+### Programmatic Usage
+
+```python
+from map_scanner import MapScanner, create_scanner
+
+# Using the convenience function
+scanner = create_scanner("My Game Window")
+
+# Or direct instantiation
+scanner = MapScanner("My Game Window")
+
+# Execute scan
+results = scanner.execute_scan(
+    target_names=["Player1", "Player2"],
+    max_rows=25,
+    test_mode=False
+)
+
+# Process results
+for target in results:
+    print(f"Found {target['name']} at {target['scan_position']}")
+```
+
+## 🧪 Testing and Development
+
+### Running Tests
+
+```bash
+# Run basic OCR test
+python -m map_scanner --test yes
+
+# Run with debug logging
+python -m map_scanner --test yes --debug
+
+# Custom test parameters
+python -m map_scanner --test yes --window "Custom Window" --log-file test.log
+```
+
+### Code Quality
+
+The codebase follows strict quality standards:
+
+```bash
+# Code formatting
+black map_scanner/
+
+# Linting
+flake8 map_scanner/
+
+# Type checking
+mypy map_scanner/
+
+# Testing (when test suite is implemented)
+pytest tests/
+```
+
+## 📊 Configuration
+
+### Window Configuration (`WindowConfig`)
+
+- UI margin percentages for different game layouts
+- Minimum window size requirements
+- Default window titles
+
+### Capture Configuration (`CaptureConfig`)
+
+- Screen capture settings and timing
+- Movement delays and variance ranges
+- Safety limits and boundaries
+
+### OCR Configuration (`OCRConfig`)
+
+- Tesseract configurations for different text types
+- Image preprocessing strategies
+- Quality thresholds and scoring weights
+
+### Scan Configuration (`ScanConfig`)
+
+- Default scanning parameters
+- Zoom calibration settings
+- Movement detection thresholds
+
+## 🔧 Architecture Details
+
+### Single Responsibility Principle (SRP)
+
+Each module has a focused responsibility:
+
+- **WindowManager**: Window detection, preparation, and area calculations
+- **ScreenCapture**: Screenshot operations and movement detection
+- **MouseController**: Mouse movements with natural behavior patterns
+- **OCREngine**: Text extraction and image preprocessing
+- **MapScanner**: High-level orchestration and scanning logic
+
+### Open/Closed Principle (OCP)
+
+The architecture is designed for extension without modification:
+
+- New OCR strategies can be added to `OCRConfig.OCR_STRATEGIES`
+- New preprocessing methods can be added to `ImagePreprocessor`
+- New exception types can be added to the exception hierarchy
+
+### Dependency Inversion Principle (DIP)
+
+High-level modules depend on abstractions, not concretions:
+
+- `MapScanner` orchestrates specialized components
+- Components communicate through well-defined interfaces
+- Configuration is externalized and injectable
+
+## 🛡️ Error Handling
+
+Comprehensive exception hierarchy provides precise error handling:
+
+```python
+try:
+    scanner = MapScanner()
+    results = scanner.execute_scan(targets)
+except SafetyExit:
+    # User requested stop or safety condition triggered
+    pass
+except WindowError:
+    # Window-related issues
+    pass
+except OCRError:
+    # OCR processing problems
+    pass
+except MapScannerError:
+    # General scanner errors
+    pass
+```
+
+## 📝 Logging
+
+Centralized logging with configurable levels:
+
+- **INFO**: General operation progress
+- **DEBUG**: Detailed diagnostic information
+- **WARNING**: Non-critical issues
+- **ERROR**: Error conditions
+
+Logs are written to both console and file for comprehensive debugging.
+
+## 🚦 Safety Features
+
+- **Fail-safe Mode**: PyAutoGUI fail-safe (move mouse to corner to stop)
+- **Boundary Checking**: All mouse movements are validated against window boundaries
+- **Signal Handling**: Graceful shutdown on Ctrl+C or system signals
+- **Running Flags**: Consistent state checking throughout operations
+- **Safety Limits**: Maximum columns/rows to prevent infinite loops
+
+## 🔄 Migration from Original Script
+
+The refactored application maintains full compatibility with the original functionality while providing:
+
+1. **Better Maintainability**: Modular code is easier to debug and modify
+2. **Enhanced Reliability**: Improved error handling and safety checks
+3. **Extensibility**: New features can be added without affecting existing code
+4. **Testability**: Individual components can be tested in isolation
+5. **Documentation**: Clear interfaces and comprehensive documentation
+
+## 🤝 Contributing
+
+When contributing to this project:
+
+1. Follow the established architecture patterns
+2. Maintain single responsibility for each module
+3. Add comprehensive error handling
+4. Include appropriate logging
+5. Follow PEP-8 code style
+6. Add type hints where applicable
+7. Update documentation for new features
+
+## 📄 License
+
+This project is provided as-is for educational and professional development purposes.
+
+---
+
+**Note**: This refactored application demonstrates professional software engineering practices applied to automation tooling. The modular architecture makes it suitable for production environments while maintaining ease of development and testing.

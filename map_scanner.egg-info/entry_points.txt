@@ -1,0 +1,2 @@
+[console_scripts]
+map-scanner = map_scanner.main:main
