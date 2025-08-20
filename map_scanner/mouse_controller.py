@@ -9,10 +9,10 @@ import random
 from typing import Tuple, Optional
 import pyautogui
 
-from .map_scanner.config import CaptureConfig, PyAutoGUIConfig
-from .map_scanner.exceptions import MovementError, SafetyExit
-from .map_scanner.logger_config import get_logger
-from .map_scanner.utils import add_variance, safe_clamp
+from .config import CaptureConfig, PyAutoGUIConfig
+from .exceptions import MovementError, SafetyExit
+from .logger_config import get_logger
+from .utils import add_variance, safe_clamp
 
 logger = get_logger(__name__)
 

@@ -20,9 +20,9 @@ from map_scanner.utils import (
     format_scan_results,
     calculate_overlap_step
 )
-from window_manager import WindowManager
+from map_scanner.window_manager import WindowManager
 from map_scanner.screen_capture import ScreenCapture
-from mouse_controller import MouseController
+from map_scanner.mouse_controller import MouseController
 from map_scanner.ocr_engine import OCREngine
 from map_scanner.ocr_engine import OCRConfig
 

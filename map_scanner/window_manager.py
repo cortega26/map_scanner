@@ -9,10 +9,10 @@ from typing import Tuple, Optional, Dict, Any
 import win32con
 import win32gui
 
-from .map_scanner.config import WindowConfig
-from .map_scanner.exceptions import WindowError
-from .map_scanner.logger_config import get_logger
-from .map_scanner.utils import calculate_effective_area
+from .config import WindowConfig
+from .exceptions import WindowError
+from .logger_config import get_logger
+from .utils import calculate_effective_area
 
 logger = get_logger(__name__)
 
